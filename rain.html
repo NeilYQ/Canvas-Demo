@@ -1,0 +1,74 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>下雨天</title>
+  <meta name="keywords" content="关键词">
+  <meta name="description" content="描述">
+  <meta name="author" content="Neil-YQ">
+  <style>
+    body{font-family: "Microsoft YaHei",serif;}
+    body,dl,dd,p,h1,h2,h3,h4,h5,h6{margin:0;}
+    ol,ul,li{margin:0;padding:0;list-style:none;}
+    img{border:none;}
+
+    body{
+      overflow: hidden;
+    }
+	</style>
+</head>
+<body>
+	<canvas></canvas>
+  <script type="text/javascript">
+  	
+    const arr = [];
+  	const cv = document.querySelector("canvas");
+  	const c = cv.getContext("2d");
+    //获取浏览器窗口的宽高
+    let w = cv.width = window.innerWidth;
+    let h = cv.height =  window.innerHeight;
+    //让画布的宽高跟随浏览器窗口的变化而变化
+    window.onresize = function(){
+      w = cv.width = window.innerWidth;
+      h = cv.height =  window.innerHeight;
+    }
+
+    c.strokeStyle = "#66ffcccc";
+    c.lineWidth = .5;
+
+    for(let i=0; i<300; i++){
+      arr.push({
+        x: Math.random()*w,
+        y: Math.random()*h,
+        endx: -4 + Math.random()*4 +2,
+        endy: Math.random()*10 +10,
+        l: Math.random()
+      });
+    }
+    function draw(){
+      c.clearRect(0, 0, w, h);
+      c.rect(0, 0, w, h);
+      c.fill();
+      for(let j=0; j<arr.length; j++){
+        c.beginPath();
+        c.moveTo(arr[j].x, arr[j].y);
+        c.lineTo(arr[j].x + arr[j].l*arr[j].endx, arr[j].y + arr[j].l*arr[j].endy);
+        c.stroke();
+      }
+      move();
+    }  
+    function move(){
+      for(let i=0; i<arr.length; i++){
+        arr[i].x += arr[i].endx;
+        arr[i].y += arr[i].endy;
+        if( arr[i].y>h || arr[i].x>w ){
+          arr[i].x = Math.random()*w;
+          arr[i].y = -20;
+        }
+      }
+    }
+    setInterval(draw, 66);
+
+  </script>
+</body>
+</html>

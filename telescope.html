@@ -1,0 +1,58 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>望远镜</title>
+  <meta name="keywords" content="关键词">
+  <meta name="description" content="描述">
+  <meta name="author" content="Neil-YQ">
+  <style>
+    body{font-family: "Microsoft YaHei",serif;}
+    body,dl,dd,p,h1,h2,h3,h4,h5,h6{margin:0;}
+    ol,ul,li{margin:0;padding:0;list-style:none;}
+    img{border:none;}
+
+    body{
+    	background: url("./img/lovely.gif") center no-repeat;
+    	overflow: hidden;
+    }
+	</style>
+</head>
+<body>
+	<canvas></canvas>
+  <script type="text/javascript">
+  	
+  	const canvas = document.querySelector("canvas");
+  	const ctx = canvas.getContext("2d");
+  	//获取浏览器窗口的宽高
+		let w = canvas.width = window.innerWidth;
+		let h = canvas.height =  window.innerHeight;
+		//让画布的宽高跟随浏览器窗口的变化而变化
+		window.onresize = function(){
+			w = canvas.width = window.innerWidth;
+			h = canvas.height =  window.innerHeight;
+		}
+
+    function draw({clientX=w/2, clientY=h/2}){
+    	ctx.save();
+	    ctx.clearRect(0, 0, w, h);
+	    ctx.rect(0, 0, w, h);
+	    ctx.fill();
+    	ctx.globalCompositeOperation = "destination-out";
+
+    	const rg = ctx.createRadialGradient(clientX, clientY, 1, clientX, clientY, 100);
+    	rg.addColorStop(0, "rgba(0, 0, 0, 1)");
+    	rg.addColorStop(.7, "rgba(0, 0, 0, .6)");
+    	rg.addColorStop(1, "rgba(0, 0, 0, 0)");
+    	ctx.fillStyle = rg;
+
+	    ctx.beginPath();
+	    ctx.arc(clientX, clientY, 100, 0, 2*Math.PI);
+			ctx.fill();
+	    ctx.restore();
+    }
+    canvas.addEventListener("mousemove", draw);
+
+  </script>
+</body>
+</html>
