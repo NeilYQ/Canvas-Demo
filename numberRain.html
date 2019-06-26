@@ -1,0 +1,55 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>数字雨</title>
+  <meta name="keywords" content="关键词">
+  <meta name="description" content="描述">
+  <meta name="author" content="Neil-YQ">
+  <style>
+    body{font-family: "Microsoft YaHei",serif;}
+    body,dl,dd,p,h1,h2,h3,h4,h5,h6{margin:0;}
+    ol,ul,li{margin:0;padding:0;list-style:none;}
+    img{border:none;}
+
+    #numberRain{
+      display: block;
+      background-color: #fff;
+    }
+	</style>
+</head>
+<body>
+
+	<canvas id="numberRain"></canvas>
+
+  <script type="text/javascript">
+  	var can = document.getElementById('numberRain');
+  	var ctx = can.getContext("2d");
+
+  	var w = can.width = window.innerWidth,
+  			h = can.height = window.innerHeight,
+  			size = 14,
+  			num = w / size,
+  			y = []
+  	;
+  	for(var i=0; i<num; i++) y[i]=0;
+      
+  	!(function draw(){
+  		ctx.fillStyle = "rgba(0,0,0,.1)";
+  		ctx.fillRect(0, 0, w, h);
+
+  		ctx.fillStyle = "#33ff00";
+  		ctx.font = "bold "+size+"px Microsoft yahei";
+
+  		for(var i=0; i<num; i++){
+  			var s = Math.floor(Math.random()*10)+'';
+  			ctx.fillText(s, i*size, y[i]);
+  			y[i]+=size;
+  			if(y[i]>=h && Math.random()>=0.9) y[i]=0;
+  		}
+  		window.requestAnimationFrame(draw);
+  	})();
+
+  </script>
+</body>
+</html>
