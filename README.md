@@ -7,4 +7,8 @@
 5. <a href="https://neilyq.github.io/Canvas-Demo/bg">连线背景1</a>
 6. <a href="https://neilyq.github.io/Canvas-Demo/bg1">连线背景1(改进)</a>
 7. <a href="https://neilyq.github.io/Canvas-Demo/numberRain">数字雨</a>
+8. <a href="https://neilyq.github.io/Canvas-Demo/stars">星空</a>
+9. <a href="https://neilyq.github.io/Canvas-Demo/meteorShower">流星雨</a>
+
+
 
