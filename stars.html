@@ -1,0 +1,81 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>星空</title>
+  <meta name="keywords" content="星空、canvas">
+  <meta name="description" content="描述">
+  <meta name="author" content="Neil-YQ">
+  <style>
+    body{font-family: "Microsoft YaHei",serif;}
+    body,dl,dd,p,h1,h2,h3,h4,h5,h6{margin:0;}
+    ol,ul,li{margin:0;padding:0;list-style:none;}
+    img{border:none;}
+
+    body{overflow: hidden;}
+    #box{
+    	background: linear-gradient(to bottom, #0f2027, #203a43, #2c5364);
+    };
+	</style>
+</head>
+<body>
+
+	<canvas id="box"></canvas>
+
+  <script type="text/javascript">
+  	var canvas = document.getElementById("box");
+  	var ctx = canvas.getContext("2d");
+
+  	var num = 200, data, w, h;
+
+  	init();
+  	window.onresize = init;
+
+  	function init(){
+  		w = canvas.width = window.innerWidth;
+  		h = canvas.height = window.innerHeight;
+  		data = [];
+  		for(var i=0; i<num; i++){
+  			data[i] = {
+  				x: Math.random()*w,
+  				y: Math.random()*h,
+  				r: Math.random()*8+3
+  			};
+  			Circle(data[i].x, data[i].y, data[i].r);
+  		}
+  	}
+
+  	!(function draw(){
+  		ctx.clearRect(0, 0, w, h);
+  		for(var i=0; i<num; i++){
+  			data[i].r += Math.random()*2-1;
+  			data[i].r = Math.max(0, data[i].r);
+  			data[i].r = Math.min(12, data[i].r);
+  			Circle(data[i].x, data[i].y, data[i].r);
+  		}
+  		window.requestAnimationFrame(draw);
+  	})();
+
+  	function Circle(x, y, r){
+  		ctx.save();
+  		var light = ctx.createRadialGradient(x, y, 0, x, y, r);
+  		light.addColorStop(0, "rgba(255,255,255,0.8)");
+  		light.addColorStop(0.1, "rgba(255,255,255,0.8)");
+  		light.addColorStop(0.2, "rgba(255,255,255,0.08)");
+  		light.addColorStop(1, "rgba(255,255,255,0)");
+
+  		ctx.fillStyle = light;
+  		ctx.beginPath();
+  		ctx.arc(x, y, r, 0, Math.PI*2, true);
+  		ctx.closePath();
+  		ctx.fill();
+  		ctx.restore();
+  	}
+  </script>
+</body>
+</html>
+
+
+
+
+
