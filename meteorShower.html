@@ -1,0 +1,148 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>流星雨</title>
+  <meta name="keywords" content="流星雨、canvas">
+  <meta name="description" content="Meteor Shower">
+  <meta name="author" content="Neil-YQ">
+  <style>
+    body{font-family: "Microsoft YaHei",serif;}
+    body,dl,dd,p,h1,h2,h3,h4,h5,h6{margin:0;}
+    ol,ul,li{margin:0;padding:0;list-style:none;}
+    img{border:none;}
+
+    body{overflow: hidden;}
+    #box{
+    	background: linear-gradient(to bottom, #0f2027, #203a43, #2c5364);
+    };
+	</style>
+</head>
+<body>
+
+	<canvas id="box"></canvas>
+
+  <script type="text/javascript">
+  	var canvas = document.getElementById("box");
+  	var ctx = canvas.getContext("2d");
+
+
+  	var num = 200, data, liuXY, k, range, len, w, h;
+  	init();
+  	window.onresize = init;
+  	function init(){
+  		w = canvas.width = window.innerWidth;
+  		h = canvas.height = window.innerHeight;
+
+  		data = [];
+  		liuXY = [];
+  		k = -1;
+  		range = Math.atan(k);
+  		len = 200;
+  		for(var i=0; i<num; i++){
+  			data[i] = {
+  				x: Math.random()*w,
+  				y: Math.random()*h,
+  				r: Math.random()*8+3
+  			};
+  			Circle(data[i].x, data[i].y, data[i].r);
+  		}
+  	}
+
+  	!(function draw(){
+  		ctx.clearRect(0, 0, w, h);
+  		for(var i=0; i<num; i++){
+  			data[i].r += Math.random()*2-1;
+  			data[i].r = Math.max(0, data[i].r);
+  			data[i].r = Math.min(12, data[i].r);
+  			Circle(data[i].x, data[i].y, data[i].r);
+  		}
+  		if(liuXY.length){
+  			for(var i in liuXY){
+  				liuXY[i].cX -= 15;
+  				Meteor(liuXY[i].cX, liuXY[i].y, liuXY[i].x);
+
+  				if(liuXY[i].cX<0 || getY(liuXY[i].cX, liuXY[i].y, liuXY[i].x)>h)
+  					liuXY.splice(i, 1);
+  			}
+  		}
+  		if(Math.random()>0.98){
+  			if(Math.random()>=0.5){
+  				var a = Math.random()*w;
+  				liuXY.push({x:a, y:0, cX:a});
+  			}else{
+  				var a = Math.random()*h;
+  				liuXY.push({x:0, y:a, cX:w});
+  			}
+  		}
+  		window.requestAnimationFrame(draw);
+  	})();
+
+  	function Circle(x, y, r){
+  		ctx.save();
+  		var light = ctx.createRadialGradient(x, y, 0, x, y, r);
+  		light.addColorStop(0, "rgba(255,255,255,0.8)");
+  		light.addColorStop(0.1, "rgba(255,255,255,0.8)");
+  		light.addColorStop(0.2, "rgba(255,255,255,0.08)");
+  		light.addColorStop(1, "rgba(255,255,255,0)");
+
+  		ctx.fillStyle = light;
+  		ctx.beginPath();
+  		ctx.arc(x, y, r, 0, Math.PI*2, true);
+  		ctx.closePath();
+  		ctx.fill();
+  		ctx.restore();
+  	}
+
+  	function Meteor(x, sX, sY){
+  		ctx.save();
+  		var y = getY(x, sY, sX);
+  		var r = Math.random()*10+10;
+  		var light = ctx.createRadialGradient(x, y, 0, x, y, r);
+  		light.addColorStop(0, "rgba(255,255,255,0.8)");
+  		light.addColorStop(0.1, "rgba(255,255,255,0.8)");
+  		light.addColorStop(0.2, "rgba(255,255,255,0.08)");
+  		light.addColorStop(1, "rgba(255,255,255,0)");
+
+  		ctx.fillStyle = light;
+  		ctx.beginPath();
+  		ctx.arc(x, y, r, 0, Math.PI*2, true);
+  		ctx.closePath();
+  		ctx.fill();
+  		ctx.restore();
+
+  		var wX = x + Math.cos(range)*len;
+  		var wY = y + Math.sin(range)*len;
+
+  		var x1 = x+3;
+  		var y1 = y;
+  		var x2 = x;
+  		var y2 = y-3;
+
+  		ctx.save();
+  		var light2 = ctx.createRadialGradient(x, y, 0, x, y, len);
+  		light2.addColorStop(0, "rgba(255,255,255,0.1)");
+  		light2.addColorStop(1, "rgba(255,255,255,0)");
+
+  		ctx.fillStyle = light2;
+  		ctx.beginPath();
+  		ctx.moveTo(x1, y1);
+  		ctx.lineTo(x2, y2);
+  		ctx.lineTo(wX, wY);
+  		ctx.closePath();
+  		ctx.fill();
+  		ctx.restore();
+  	}
+
+  	function getY(x, startY, startX){
+  		return k*x + startY - startX;
+  	}
+
+  </script>
+</body>
+</html>
+
+
+
+
+
